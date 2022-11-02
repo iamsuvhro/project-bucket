@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import Header from "../../components/Header/Header";
 import TabLink from "../../components/TabLink/TabLink";
 import { Suspense } from "react";
@@ -11,20 +11,16 @@ import {
 } from "@ant-design/icons";
 import { Avatar, Card, Divider, Descriptions, Button } from "antd";
 
-export default function Feed() {
-  const { Meta } = Card;
+export default function Profile() {
+    const { Meta } = Card;
   return (
-    <div className="Feed">
+    <div className="Profile">
       {/* <Header /> */}
-      <div className="grid grid-flow-row-dense grid-cols-3 grid-rows-3 gap-10">
-        <div className="col-span-2">
-          <FeedCards />
-          {/* <FeedCards /> */}
-        </div>
+      <div className="grid grid-flow-row-dense grid-cols-0 grid-rows-3">
         <Card
           style={{
             width: "90%",
-            marginTop: 50,
+            marginTop: 30,
             boxShadow: "5px 0px 10px 1px rgba(0, 0, 0, 0.2)",
             marginLeft: 25,
           }}
@@ -55,5 +51,5 @@ export default function Feed() {
         </Card>
       </div>
     </div>
-  );
+  )
 }
