@@ -1,11 +1,4 @@
 import React from 'react'
-import Header from "../../components/Header/Header";
-import TabLink from "../../components/TabLink/TabLink";
-import { Suspense } from "react";
-import { Link, Navigate, Route, Routes } from "react-router-dom";
-import { lazy } from "react";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import FeedCards from "../../components/FeedCards/Cards";
 import {
   TeamOutlined
 } from "@ant-design/icons";
