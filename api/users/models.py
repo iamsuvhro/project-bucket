@@ -4,6 +4,8 @@ import uuid
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Create your models here.
+
+
 class MyAccountManager(BaseUserManager):
 
     def create_user(self, email, username, password=None):
@@ -54,7 +56,7 @@ class Account(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     profile_image = models.ImageField(max_length=255,               upload_to=get_profile_image_filepath,
                                       null=True, blank=True, default=get_default_profile_image())
-    
+
     objects = MyAccountManager()
 
     USERNAME_FIELD = 'email'
