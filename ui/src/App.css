@@ -1,0 +1,10 @@
+.site-layout-content {
+    min-height: 280px;
+    padding: 24px;
+    background: #fff;
+  }
+
+.login{
+    background: rgba(178, 231, 255, 0.867);
+    height: '100%';
+}

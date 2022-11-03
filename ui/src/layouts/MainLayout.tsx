@@ -6,7 +6,7 @@ import DefaultLayout from "./DefaultLayout";
 export default function MainLayout() {
   return (
     <>
-      <DefaultLayout />
+      <Login />
     </>
   );
 }
