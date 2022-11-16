@@ -1,8 +1,24 @@
 import { Button, Checkbox, Form, Input, Card } from "antd";
-import React from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import "antd/dist/antd.css";
+import userlogin from "../../services/user";
+import { bindActionCreators } from "redux";
+import { actions } from "../../state/Auth";
+import { useDispatch } from "react-redux";
+// import userlogin from "../../services/user";
+
+// Initializing actions
+// const dispatch = useDispatch();
+// const {login} = bindActionCreators(actions, dispatch)
+
+
+
 
 export default function Login() {
+
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
   const onFinish = (values: any) => {
     console.log("Success:", values);
   };
@@ -11,7 +27,9 @@ export default function Login() {
     console.log("Failed:", errorInfo);
   };
 
+
   return (
+    
     <div className="site-layout-content">
       <Card title="Login" style={{
         marginTop:'10%',
@@ -37,8 +55,9 @@ export default function Login() {
             label="Username"
             name="username"
             rules={[{ required: true, message: "Please input your username!" }]}
+            
           >
-            <Input />
+            <Input  onChange={e => setUsername(e.target.value)} />
           </Form.Item>
 
           <Form.Item
@@ -46,7 +65,7 @@ export default function Login() {
             name="password"
             rules={[{ required: true, message: "Please input your password!" }]}
           >
-            <Input.Password />
+            <Input.Password  onChange={e => setPassword(e.target.value)}/>
           </Form.Item>
 
           <Form.Item
@@ -58,7 +77,7 @@ export default function Login() {
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" onClick={() => userlogin(username,password)}>
               Submit
             </Button>
           </Form.Item>

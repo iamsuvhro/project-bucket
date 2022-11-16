@@ -4,6 +4,7 @@ urlpatterns = [
     # path('login/',views.Home),
     path('account/create/',views.create_user, name="create-user"),
     path('account/userinfo/',views.get_user, name="user-info"),
-    path('account/update/',views.update_user, name="update-user")
+    path('account/update/',views.update_user, name="update-user"),
+    path('account/login/',views.login_user, name="login-user")
 
 ]
