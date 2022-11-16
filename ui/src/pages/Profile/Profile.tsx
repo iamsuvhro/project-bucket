@@ -1,11 +1,14 @@
-import React from 'react'
-import {
-  TeamOutlined
-} from "@ant-design/icons";
+import React, { useState, useEffect, Fragment } from "react";
+import { TeamOutlined } from "@ant-design/icons";
 import { Avatar, Card, Divider, Descriptions, Button } from "antd";
+import DefaultLayout from "../../layouts/DefaultLayout";
+
+function logout() {
+  localStorage.setItem("dataKey", JSON.stringify(Boolean(false)));
+}
 
 export default function Profile() {
-    const { Meta } = Card;
+  const { Meta } = Card;
   return (
     <div className="Profile">
       {/* <Header /> */}
@@ -24,13 +27,11 @@ export default function Profile() {
             description="This is the description"
           />
           <Divider />
-          <Descriptions
-            title="Github Details"
-            extra={<Button>View Github</Button>}
-          > 
-          
-            <Descriptions.Item label="Followers"><TeamOutlined/><span style={{marginLeft:20}}>300</span></Descriptions.Item>
-            
+          <Descriptions title="Github Details" extra={<Button onClick={() => localStorage.setItem("dataKey", JSON.stringify(Boolean(false)))}>Logout</Button>}>
+            <Descriptions.Item label="Followers">
+              <TeamOutlined />
+              <span style={{ marginLeft: 20 }}>300</span>
+            </Descriptions.Item>
           </Descriptions>
           <Descriptions>
             <Descriptions.Item label="Following">2000</Descriptions.Item>
@@ -44,5 +45,5 @@ export default function Profile() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

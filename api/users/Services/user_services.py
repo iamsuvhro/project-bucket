@@ -1,6 +1,6 @@
-from users.models import Account
 import users.messages as messages
 from users.serializers import AccountSerializer
+from django.contrib.auth.models import User
 
 
 class UserServices:
@@ -14,20 +14,22 @@ class UserServices:
             "success": False,
             "message": "Unable to create new user"
         }
-
         username = payload['username']
         password = payload['password']
-        name = payload['name']
+        fname = payload['fname']
+        lname = payload['lname']
         email = payload['email']
-        github_token = payload['github_token']
-
+        # github_token = payload['github_token']
+        breakpoint()
         try:
-            query = Account.objects.create(
-                name=name,
+            
+            query = User.objects.create_user(
                 username=username,
                 password=password,
                 email=email,
-                github_token=github_token
+                first_name=fname,
+                last_name = lname
+                # github_token=github_token
             )
             query.save()
             res.update({
@@ -51,7 +53,7 @@ class UserServices:
         username = payload["username"]
 
         try:
-            query = Account.objects.filter(username=username)
+            query = User.objects.filter(username=username)
             serializer = AccountSerializer(query, many=True)
             res.update({
                 "data": serializer.data,
@@ -75,7 +77,7 @@ class UserServices:
         username = payload['username']
         github_token = payload['github_token']
         try:
-            query = Account.objects.filter(username=username).update(
+            query = User.objects.filter(username=username).update(
                 github_token=github_token
             )
             res.update({
@@ -99,7 +101,7 @@ class UserServices:
         username = payload['username']
 
         try:
-            query = Account.objects.delete(username=username)
+            query = User.objects.delete(username=username)
             res.update({
                 "success": True,
                 "message": messages.DELETE_USER_DETAIL_SUCCESS
