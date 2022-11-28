@@ -8,12 +8,18 @@ import { State } from "../state/reducers"
 import { Provider, useSelector } from "react-redux";
 
 export default function MainLayout() {
-  const authStatus = useSelector((state: State) => state.authStatus)
+  const authStatus = true;
   return (
     <>
       <BrowserRouter>
           <Routes>
-              <Route path="/*" element={<DefaultLayout />} />
+          <Route path="/*" element={
+            authStatus ? (
+              <DefaultLayout/>
+            ) : (
+              <Login/>
+            )
+          } />
           </Routes>
       </BrowserRouter>
     </>

@@ -1,20 +1,31 @@
 import { Button, Checkbox, Form, Input, Card } from "antd";
 import React, { useState, useEffect, Fragment } from "react";
 import "antd/dist/antd.css";
-import userlogin from "../../services/user";
+import Userlogin from "../../services/user";
 import { bindActionCreators } from "redux";
 import { actions } from "../../state/Auth";
 import { useDispatch } from "react-redux";
-// import userlogin from "../../services/user";
 
+// import userlogin from "../../services/user";
 // Initializing actions
 // const dispatch = useDispatch();
 // const {login} = bindActionCreators(actions, dispatch)
 
 
 
-
 export default function Login() {
+
+
+  const UserLogin = async(username:string,password:string) => {
+    const response = await Userlogin(username,password)
+    console.log('authStatus',response.success)
+    // const { authStatus,setAuthStatus } = useUserContext()
+    
+    if (response.success == true) {
+        // setAuthStatus(true)
+      }
+    
+  }
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -77,7 +88,7 @@ export default function Login() {
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit" onClick={() => userlogin(username,password)}>
+            <Button type="primary" htmlType="submit" onClick={() => UserLogin(username,password)}>
               Submit
             </Button>
           </Form.Item>
@@ -86,3 +97,4 @@ export default function Login() {
     </div>
   );
 }
+

@@ -7,13 +7,18 @@ interface Props {
 }
 
 const PrivateRoute = ({ children }: Props) => {
-  const dispatch = useDispatch();
-  const authStatus = useSelector((state: State) => state.authStatus)
+  // const dispatch = useDispatch();
+  const authStatus = true
+  // const authStatus = useSelector((state: State) => state.authStatus)
   
-
   const location = useLocation();
 
-  if (authStatus == false) {
+  if (authStatus) {
+    return <Navigate replace to="/" state={{ from: location }} />
+  }
+
+  else{
+    
     return <Navigate replace to="/login" state={{ from: location }} />;
   }
 

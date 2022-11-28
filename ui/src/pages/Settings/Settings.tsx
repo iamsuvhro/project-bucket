@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { TeamOutlined } from "@ant-design/icons";
 import { Avatar, Card, Divider, Descriptions } from "antd";
 import "antd/dist/antd.css";
@@ -6,6 +6,9 @@ import { Checkbox } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Select, Space } from "antd";
 import { Button, Form, Input, InputNumber } from "antd";
+// import LoadingBar from 'react-top-loading-bar'
+import UserState from "../../context/user/userState";
+import Loader from "../../components/Loader/Loader";
 
 const sights = {
   Beijing: ["Tiananmen", "Great Wall"],
@@ -32,6 +35,8 @@ const validateMessages = {
 type SightsKeys = keyof typeof sights;
 
 export default function Settings() {
+  const ref = useRef(null)
+  const [progress, setProgress] = useState(0)
   const onFinish = (values: any) => {
     console.log(values);
   };
@@ -92,6 +97,13 @@ export default function Settings() {
             </Form>
           </Descriptions>
         </Card>
+        {/* <LoadingBar color='#1890ff'
+        progress={progress}
+        onLoaderFinished={() => setProgress(0)}
+        />
+        <button onClick={() => Loader()}>
+          Start Continuous Loading Bar
+        </button> */}
       </div>
   );
 }

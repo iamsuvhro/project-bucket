@@ -1,9 +1,9 @@
-import React from "react";
-import store from "../state/store";
-import {login} from "../state/Auth/actions";
+import React,{useContext} from "react";
+import { UserContext,useUserContext } from "../context/user/userContext";
 
 
-async function userlogin(username, password) {
+const Userlogin = async(username, password) => {
+
   var myHeaders = new Headers();
   var formdata = new FormData();
   formdata.append("username", username);
@@ -20,10 +20,16 @@ async function userlogin(username, password) {
   requestOptions)
 
   const data = await res.json()
-  console.log(data)
+  // const { authStatus,setAuthStatus } = useUserContext()
+  // if (data == true) {
+  //   setAuthStatus(true)
+  // }
+  // console.log(data)
+  return data
+  // const Status  = useContext(userContext)
+  // console.log(Status.authStatus)
 
-  
 
 }
 
-export default userlogin;
+export default Userlogin;
