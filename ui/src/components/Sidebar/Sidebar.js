@@ -1,0 +1,83 @@
+import {
+  UserOutlined,
+  DeploymentUnitOutlined,
+  SettingOutlined,
+  GithubOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+import { Divider, Layout, Menu } from "antd";
+import React, { useState, useEffect } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import LoadingBar from "react-top-loading-bar";
+import { DownOutlined } from "@ant-design/icons";
+
+const { Sider } = Layout;
+
+export default function Sidebar() {
+  const [collapsed, setCollapsed] = useState(false);
+  const menu = [
+    {
+      key: "/",
+      label: <NavLink to={"/"}>Feed</NavLink>,
+      icon: <DeploymentUnitOutlined />,
+    },
+    {
+      key: "/create-card",
+      label: <NavLink to={"/create-card"}>Card</NavLink>,
+      icon: <PlusOutlined />,
+    },
+    {
+      key: "/profile",
+      label: <NavLink to={"/profile"}>Profile</NavLink>,
+      icon: <UserOutlined />,
+    },
+    {
+      key: "/github-config",
+      label: <NavLink to={"/github-config"}>Github</NavLink>,
+      icon: <GithubOutlined />,
+    },
+    {
+      key: "/settings",
+      label: <NavLink to={"/settings"}>Settings</NavLink>,
+      icon: <SettingOutlined />,
+    }
+  ];
+
+  const path = useLocation().pathname;
+  const [loading, setLoading] = useState(0);
+
+  function timeout(delay) {
+    return new Promise((res) => setTimeout(res, delay));
+  }
+
+  return (
+    <>
+    <Sider
+      collapsible
+      collapsed={collapsed}
+      onCollapse={(value) => setCollapsed(value)}
+      color="light"
+    >
+      <LoadingBar
+        color="#1890ff"
+        progress={loading}
+        onLoaderFinished={() => loading}
+      />
+      <div className="logo" />
+      <Menu
+        theme="light"
+        mode="inline"
+        defaultSelectedKeys={path}
+        items={menu}
+        style={{ height: "100%", paddingTop: 20 }}
+        onClick={async () => {
+          setLoading(50);
+          await timeout(1000);
+          setLoading(100);
+        }}
+      />
+    </Sider>
+    
+    </>
+  );
+}
