@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  backend:
+    container_name: backend_api
+    build: ./api
+    restart: "always"
+    # command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn app.wsgi:application --bind 0.0.0.0:8000
+    networks:
+      - dev
+
+  frontend:
+    container_name: frontend_ui
+    build: ./ui
+    command: yarn start
+    restart: "on-failure"
+    networks:
+      - dev
+
+  # nginx:
+  #   build: ./nginx
+  #   ports:
+  #     - "80:80"
+  #     - "443:433"
+  #   depends_on:
+  #     - backend
+  #     - frontend
+  #   networks:
+  #     - dev
+  #   environment:
+  #     - NGINX_CONF_TYPE=nginx.local.conf
+  #   restart: "on-failure"
+
+networks:
+  dev:
+    external: true
