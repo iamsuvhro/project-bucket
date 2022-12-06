@@ -1,10 +1,32 @@
-.site-layout-content {
-    min-height: 280px;
-    padding: 24px;
-    background: #fff;
-  }
-
+.body{
+  margin-top: 50;
+}
+.universalBody{
+  background-color:"white";
+}
+.profile{
+  border-radius: 50%;
+}
+.GitprofileInfo{
+  text-align: left;
+  line-height: 2.2;
+  font-size: 15px;
+}
+.gitProfileSettings{
+  text-align: center
+}
+.profileDetails{
+  display: flex;
+  /* margin: 2px; */
+}
+.intro{
+  line-height: 1.7;
+}
+.follow{
+  display: flex;
+  margin-left: 100px;
+}
 .login{
-    background: rgba(178, 231, 255, 0.867);
-    height: '100%';
+  font-size: 20px;
+  font-display: flex;
 }
