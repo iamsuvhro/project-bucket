@@ -12,7 +12,7 @@ from .models import FeedCard
 @api_view(["POST"])
 def getCards(request):
     payload = request.data
-    username = payload['username']
-    response = FeedCard.objects.filter(user=username)
+    user_id = payload['user_id']
+    response = FeedCard.objects.filter(user=user_id)
     serializer = FeedCardSerializer(response, many=True)
     return Response(serializer.data)
