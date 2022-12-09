@@ -10,19 +10,26 @@ import {
   Form,
   Input,
   Skeleton,
+  Button,
+  Divider,
 } from "antd";
-import { Menu, Spin } from "antd";
+import { Menu, Spin, Typography, List, Tag, Progress } from "antd";
 import { MoreOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { getGitRepoIssues } from "../../services/github";
+import { useSelector, useDispatch } from "react-redux";
+import { render } from "react-dom";
 
 export default function FeedCard(cardData) {
+  const { Title, Paragraph, Text, Link } = Typography;
+
   const confirm = (e) => {
     console.log(e);
-    message.success("Click on Yes");
+    message.success("Card deleted successfully");
   };
 
   const cancel = (e) => {
     console.log(e);
-    message.error("Click on No");
+    message.error("Canceled");
   };
 
   const menu = (
@@ -30,11 +37,7 @@ export default function FeedCard(cardData) {
       items={[
         {
           key: "1",
-          label: (
-            <a target="_blank" href="#">
-              Edit
-            </a>
-          ),
+          label: <>Edit</>,
           icon: <EditOutlined />,
         },
         {
@@ -72,11 +75,13 @@ export default function FeedCard(cardData) {
     setLoading(false);
     return loading;
   }
+  // const gitUser = useSelector((state) => state.githubProfile);
+  // const gitConfig = useSelector((state) => state.githubToken);
 
   return (
     <>
       <Card
-        title={cardData.data.project_title}
+        title={<Tag color="blue">{cardData.data.project_title}</Tag>}
         bordered={false}
         style={{
           width: "100%",
@@ -89,15 +94,16 @@ export default function FeedCard(cardData) {
             <MoreOutlined style={{ color: "black", fontSize: "18px" }} />
           </Dropdown>
         }
-        // loading={
-        //   // {loading},
-        //   {loader()}
-        // }
       >
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane tab="Project details" key="1">
             {cardData.data.project_title ? (
-              cardData.data.project_drescriptions
+              <>
+                <Title level={2}>{cardData.data.project_title}</Title>
+                <Paragraph>
+                  {cardData.data.project_drescriptions}
+                </Paragraph>
+              </>
             ) : (
               <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             )}
@@ -109,12 +115,34 @@ export default function FeedCard(cardData) {
               <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             )}
           </Tabs.TabPane>
+          {/* // ----------------- Issue area ------------------------- */}
           <Tabs.TabPane tab="Issues" key="3">
-            {cardData.data.project_title ? (
-              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-            ) : (
-              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-            )}
+            {/* {async () => {
+              const response = await getGitRepoIssues(
+                gitUser.username,
+                gitConfig.token,
+                "repository"
+              );
+              await console.log('Response', response.data)
+              const issuesData = response.data;
+              issuesData.map((name)=>(
+                console.log(name,'addadda')
+              ))
+            }} */}
+            <p>Hellp</p>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="Commits" key="4">
+            <p>Hellp</p>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="Todo" key="5">
+            <>
+            <Paragraph>Progress Bar :</Paragraph>
+            <Progress percent={30} status="active" />
+            <Divider/>
+            
+            <Divider/>
+            <Button style={{float:"right"}} type="primary">Add items</Button>
+            </>
           </Tabs.TabPane>
         </Tabs>
       </Card>
