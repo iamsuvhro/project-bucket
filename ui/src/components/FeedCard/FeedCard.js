@@ -14,7 +14,7 @@ import {
 import { Menu, Spin } from "antd";
 import { MoreOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
-export default function FeedCard(data) {
+export default function FeedCard(cardData) {
   const confirm = (e) => {
     console.log(e);
     message.success("Click on Yes");
@@ -67,17 +67,16 @@ export default function FeedCard(data) {
     return new Promise((res) => setTimeout(res, delay));
   }
 
-  async function loader(){
-    await timeout(1000)
-    setLoading(false)
-    return loading
+  async function loader() {
+    await timeout(1000);
+    setLoading(false);
+    return loading;
   }
-  
 
   return (
     <>
       <Card
-        title="Projects Name"
+        title={cardData.data.project_title}
         bordered={false}
         style={{
           width: "100%",
@@ -94,18 +93,28 @@ export default function FeedCard(data) {
         //   // {loading},
         //   {loader()}
         // }
-
-
       >
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane tab="Project details" key="1">
-            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            {cardData.data.project_title ? (
+              cardData.data.project_drescriptions
+            ) : (
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            )}
           </Tabs.TabPane>
           <Tabs.TabPane tab="Repository" key="2">
-            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            {cardData.data.project_title ? (
+              cardData.data.repository
+            ) : (
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            )}
           </Tabs.TabPane>
           <Tabs.TabPane tab="Issues" key="3">
-            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            {cardData.data.project_title ? (
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            ) : (
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            )}
           </Tabs.TabPane>
         </Tabs>
       </Card>

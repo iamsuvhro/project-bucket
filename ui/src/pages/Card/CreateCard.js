@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, message, Steps, Card, Select } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
+import { InboxOutlined,FileDoneOutlined } from "@ant-design/icons";
 import { Form, Upload, Input } from "antd";
 import { useSelector } from "react-redux";
 import { getGithubRepo } from "../../services/github";
@@ -211,8 +211,28 @@ export default function CreateCard() {
       ),
     },
     {
-      title: "Last",
-      content: "Last-content",
+      title: "Finish",
+      content: (
+        <>
+        <Card
+            bordered={false}
+            style={{
+              width: "100%",
+              marginTop: 50,
+              boxShadow: "5px 0px 10px 1px rgba(0, 0, 0, 0.2)",
+              marginBottom:20
+            }}
+          >
+            <p style={{fontSize:16}}><FileDoneOutlined style={{color:'green', fontSize:20}} /> Complete details</p>
+            <div style={{fontSize:14}}>
+              <p><b>Project Name</b>: {projectTitle}</p>
+              <p><b>Project Details</b>: {projectDetails}</p>
+              <p><b>Repositories</b>: {repo}</p>
+              <p><b>Upload file</b>: {upload}</p>
+            </div>
+          </Card>
+        </>
+      ),
     },
   ];
 
@@ -263,9 +283,9 @@ export default function CreateCard() {
           {current === steps.length - 1 && (
             <Button
               type="primary"
-              onClick={() => message.success("Processing complete!")}
+              onClick={() => message.success("Card created successfully")}
             >
-              Done
+              Create Card
             </Button>
           )}
           {current > 0 && (

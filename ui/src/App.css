@@ -1,32 +1,37 @@
-.body{
+.body {
   margin-top: 50;
 }
-.universalBody{
-  background-color:"white";
+.universalBody {
+  background-color: "white";
 }
-.profile{
+.profile {
   border-radius: 50%;
 }
-.GitprofileInfo{
+.GitprofileInfo {
   text-align: left;
   line-height: 2.2;
   font-size: 15px;
 }
-.gitProfileSettings{
-  text-align: center
+.gitProfileSettings {
+  text-align: center;
 }
-.profileDetails{
+.profileDetails {
   display: flex;
   /* margin: 2px; */
 }
-.intro{
+.intro {
   line-height: 1.7;
 }
-.follow{
+.follow {
   display: flex;
   margin-left: 100px;
 }
-.login{
+.login {
   font-size: 20px;
   font-display: flex;
+}
+.iframe {
+  height: calc(100vh + 52px);
+  width: 100%;
+  margin-top: -68px;
 }
