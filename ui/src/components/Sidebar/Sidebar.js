@@ -37,6 +37,11 @@ export default function Sidebar() {
       icon: <GithubOutlined />,
     },
     {
+      key: "/notebook",
+      label: <NavLink to={"/notebook"}>Notebook</NavLink>,
+      icon: <SettingOutlined />,
+    },
+    {
       key: "/settings",
       label: <NavLink to={"/settings"}>Settings</NavLink>,
       icon: <SettingOutlined />,
