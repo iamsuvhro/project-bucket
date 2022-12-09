@@ -27,3 +27,22 @@ export const authState = (boolValue) =>{
     }
 }
 
+export const notificationState = (notification) =>{
+    return (dispatch) =>{
+        dispatch({
+            type: "setNotificationState",
+            payload: notification
+        })
+    }
+}
+
+export const userAuthDetails = (userDetails) =>{
+    return (dispatch) =>{
+        dispatch({
+            type: "setUserDetails",
+            payload: userDetails
+        })
+    }
+}
+
+

@@ -11,9 +11,10 @@ import { NavLink, useLocation } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
 import { DownOutlined } from "@ant-design/icons";
 
-const { Sider } = Layout;
+
 
 export default function Sidebar() {
+  const { Sider } = Layout;
   const [collapsed, setCollapsed] = useState(false);
   const menu = [
     {

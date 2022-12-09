@@ -105,7 +105,7 @@ export default function GithubConfig() {
               )}
             </Card>
           </Col>
-          <Col style={{ width: 900 }}>
+          <Col style={{ width: 700 }}>
             <Card>
               <Tabs defaultActiveKey="1">
                 <Tabs.TabPane tab="Github Profile" key="1">
@@ -166,7 +166,7 @@ export default function GithubConfig() {
                         label="Github Token"
                         rules={[{ required: true }]}
                       >
-                        <Input
+                        <Input.Password
                           onChange={(e) => setToken(e.target.value)}
 
                           // disabled={disabled? true:false}

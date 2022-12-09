@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, } from "antd";
+import { Layout, Dropdown, Space, Badge } from "antd";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Feed from "../pages/Feed/Feed";
 import Profile from "../pages/Profile/Profile.js";
@@ -9,40 +9,21 @@ import Settings from "../pages/Settings/settings";
 import Error from "../pages/404/404";
 import CreateCard from "../pages/Card/CreateCard";
 import GithubConfig from "../pages/Gtihub/GithubConfig";
-import { BookOutlined } from "@ant-design/icons";
+import { BookOutlined, BellOutlined, LogoutOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
-import { LogoutOutlined } from "@ant-design/icons";
 import { actionCreators } from "../state";
 import Notebook from "../pages/Notebook/notebook";
 
-export default function DefaultLayout() {
-  const dispatch = useDispatch();
+import RightSidebar from "../components/layout/rightSidebar/RightSidebar";
+import Headers from "../components/Header/Header";
 
-  function logout() {
-    dispatch(actionCreators.authState(false));
-  }
-  const { Content, Header } = Layout;
+export default function DefaultLayout() {
+  const { Content } = Layout;
   return (
     <>
       <div className="universalBody">
         <Layout className="site-layout">
-          <Header
-            style={{
-              background: "white",
-              borderBottom: "1px solid #cbcbcb",
-              fontSize: 18,
-            }}
-          >
-            <BookOutlined /> Project Lab
-            <div style={{ float: "right" }}>
-              Logout{" "}
-              <LogoutOutlined
-                onClick={() => {
-                  logout();
-                }}
-              />
-            </div>
-          </Header>
+          <Headers />
           <Layout className="site-layout">
             <Sidebar />
             <Content
@@ -50,6 +31,7 @@ export default function DefaultLayout() {
                 margin: "0 16px",
                 padding: 24,
                 minHeight: "100vh",
+                overflow: "initial",
               }}
               className="site-layout-background"
             >
@@ -70,6 +52,7 @@ export default function DefaultLayout() {
                 </Routes>
               </Suspense>
             </Content>
+            <RightSidebar />
           </Layout>
         </Layout>
       </div>

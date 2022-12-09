@@ -7,7 +7,7 @@ import FeedCard from "../../components/FeedCard/FeedCard";
 const getCards = async (id) => {
   var myHeaders = new Headers();
   var formdata = new FormData();
-  formdata.append("username", id);
+  formdata.append("user_id", id);
 
   var requestOptions = {
     method: "POST",
@@ -22,7 +22,6 @@ const getCards = async (id) => {
   );
 
   const data = await res.json();
-
   return data;
 };
 
@@ -41,9 +40,10 @@ export default function Feed() {
     if (CardData.length > 0) {
       return (
         <>
-          {CardData.map((name) => (
-            <FeedCard data={name} />
+          {CardData.map((CardData) => (
+            <FeedCard data={CardData} />
           ))}
+          <Divider />
         </>
       );
     } if(CardData.length === 0) {
