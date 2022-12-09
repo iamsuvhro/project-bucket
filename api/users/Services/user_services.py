@@ -50,10 +50,10 @@ class UserServices:
             "data": None,
             "message": messages.GET_USER_DETAIL_ERROR
         }
-        username = payload["username"]
+        user_id = payload["user_id"]
 
         try:
-            query = User.objects.filter(username=username)
+            query = User.objects.filter(id=user_id)
             serializer = AccountSerializer(query, many=True)
             res.update({
                 "data": serializer.data,
