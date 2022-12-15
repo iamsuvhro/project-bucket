@@ -12,9 +12,16 @@ import {
   Skeleton,
   Button,
   Divider,
+  Popover,
 } from "antd";
 import { Menu, Spin, Typography, List, Tag, Progress } from "antd";
-import { MoreOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  MoreOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  MinusCircleOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import { getGitRepoIssues } from "../../services/github";
 import { useSelector, useDispatch } from "react-redux";
 import { render } from "react-dom";
@@ -75,6 +82,28 @@ export default function FeedCard(cardData) {
     setLoading(false);
     return loading;
   }
+
+  // Popup code
+
+  const [uploadTodoData, setUploadTodoData] = useState([]);
+  const [open, setOpen] = useState(false);
+  const hide = () => {
+    setOpen(false);
+  };
+  const handleOpenChange = (newOpen) => {
+    setOpen(newOpen);
+  };
+  const onFinish = (values) => {
+    console.log("Received values of form:", values.users);
+
+    values.users.map((details) =>
+    // setTheArray([...theArray, newElement]);
+      setUploadTodoData([{...uploadTodoData},{details}])
+      // console.log(details)
+    );
+    console.log('todo',uploadTodoData);
+  };
+
   // const gitUser = useSelector((state) => state.githubProfile);
   // const gitConfig = useSelector((state) => state.githubToken);
 
@@ -100,9 +129,7 @@ export default function FeedCard(cardData) {
             {cardData.data.project_title ? (
               <>
                 <Title level={2}>{cardData.data.project_title}</Title>
-                <Paragraph>
-                  {cardData.data.project_drescriptions}
-                </Paragraph>
+                <Paragraph>{cardData.data.project_drescriptions}</Paragraph>
               </>
             ) : (
               <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
@@ -136,12 +163,90 @@ export default function FeedCard(cardData) {
           </Tabs.TabPane>
           <Tabs.TabPane tab="Todo" key="5">
             <>
-            <Paragraph>Progress Bar :</Paragraph>
-            <Progress percent={30} status="active" />
-            <Divider/>
-            
-            <Divider/>
-            <Button style={{float:"right"}} type="primary">Add items</Button>
+              <Paragraph>Progress Bar :</Paragraph>
+              <Progress percent={30} status="active" />
+              <Divider />
+              {/* {uploadTodoData} */}
+              <Divider />
+              <Popover
+                content={
+                  <>
+                    <Form
+                      name="dynamic_form_nest_item"
+                      onFinish={onFinish}
+                      autoComplete="off"
+                    >
+                      <Form.List name="users">
+                        {(fields, { add, remove }) => (
+                          <>
+                            {fields.map(({ key, name, ...restField }) => (
+                              <Space
+                                key={key}
+                                style={{
+                                  display: "flex",
+                                  marginBottom: 8,
+                                }}
+                                align="baseline"
+                              >
+                                <Form.Item
+                                  {...restField}
+                                  name={[name, "title"]}
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message: "Missing todo title",
+                                    },
+                                  ]}
+                                >
+                                  <Input placeholder="todo title" />
+                                </Form.Item>
+                                <Form.Item
+                                  {...restField}
+                                  name={[name, "body"]}
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message: "Missing drescriptions",
+                                    },
+                                  ]}
+                                >
+                                  <Input placeholder="todo drescriptions" />
+                                </Form.Item>
+                                <MinusCircleOutlined
+                                  onClick={() => remove(name)}
+                                />
+                              </Space>
+                            ))}
+                            <Form.Item>
+                              <Button
+                                type="dashed"
+                                onClick={() => add()}
+                                block
+                                icon={<PlusOutlined />}
+                              >
+                                Add field
+                              </Button>
+                            </Form.Item>
+                          </>
+                        )}
+                      </Form.List>
+                      <Form.Item>
+                        <Button type="primary" htmlType="submit">
+                          Add Todo Items
+                        </Button>
+                      </Form.Item>
+                    </Form>
+                  </>
+                }
+                title="Add Todo"
+                trigger="click"
+                open={open}
+                onOpenChange={handleOpenChange}
+              >
+                <Button type="primary" style={{ float: "right" }}>
+                  Add items
+                </Button>
+              </Popover>
             </>
           </Tabs.TabPane>
         </Tabs>

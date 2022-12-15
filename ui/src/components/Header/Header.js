@@ -33,7 +33,7 @@ export default function Headers() {
     }
   }
 
-  //   getNotification()
+  getNotification()
 
   console.log(notficationState.notification);
 
