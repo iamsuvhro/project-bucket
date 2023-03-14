@@ -33,7 +33,7 @@ export default function Headers() {
     }
   }
 
-  //   getNotification()
+  getNotification()
 
   console.log(notficationState.notification);
 
@@ -47,6 +47,9 @@ export default function Headers() {
         background: "white",
         borderBottom: "1px solid #cbcbcb",
         fontSize: 18,
+        position:"fixed",
+        width:"100%",
+        zIndex:1
       }}
     >
       <BookOutlined /> Project Lab

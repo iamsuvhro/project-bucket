@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Divider, Skeleton, Spin } from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
 import FeedCard from "../../components/FeedCard/FeedCard";
+import { useSelector, useDispatch } from "react-redux";
 
 
 const getCards = async (id) => {
@@ -27,10 +28,15 @@ const getCards = async (id) => {
 
 export default function Feed() {
 
+
+  const user = useSelector((state) => state.user);
+
+
   const [CardData, setCardData] = useState();
 
+
   async function getFeedData() {
-    const response = await getCards(1);
+    const response = await getCards(user.user_id);
     setCardData(response);
   }
 

@@ -77,7 +77,7 @@ export default function GithubConfig() {
       <center>
         {contextHolder}
         <Row>
-          <Col style={{ width: 500, marginRight: 20 }}>
+          <Col style={{ width: 500, marginRight: 20, marginTop:50 }}>
             <Card>
               <div>
                 <img src={state.avatar_url} width={"50%"} className="profile" />
@@ -105,7 +105,7 @@ export default function GithubConfig() {
               )}
             </Card>
           </Col>
-          <Col style={{ width: 700 }}>
+          <Col style={{ width: 700, marginTop:50 }}>
             <Card>
               <Tabs defaultActiveKey="1">
                 <Tabs.TabPane tab="Github Profile" key="1">

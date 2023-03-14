@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 export default function RightSidebar() {
   const state = useSelector((state) => state.githubProfile);
+  const user = useSelector((state) => state.user);
   const { Sider } = Layout;
   return (
     <>
@@ -13,7 +14,11 @@ export default function RightSidebar() {
         style={{
           background: "white",
           width: "700px",
-          paddingTop: "100px",
+          height: '100vh',
+          position: 'fixed',
+          marginLeft:"1604px",
+          marginTop:"60px",
+          paddingTop:80
         }}
         width={300}
       >
@@ -27,9 +32,17 @@ export default function RightSidebar() {
           <Avatar size={174} icon={<UserOutlined />} />
         )}
         <center>
-          <Tag color="purple"><GithubOutlined /> {state.username}</Tag>
-          <p style={{ flow: "center", fontSize:'24px' }}>Suvhradip Ghosh</p>
+          <Tag color="purple">
+            <GithubOutlined /> {state.username}
+          </Tag>
+          <p style={{ flow: "center", fontSize: "24px" }}>Suvhradip Ghosh</p>
         </center>
+        <div style={{marginLeft:20, marginRight:5}}>
+          <p><b>User Id</b>: {user.user_id}</p>
+          <p><b>Username</b>: {user.username}</p>
+          <p><b>User Email</b>: {user.email}</p>
+          <p><b>Last Login</b>: {user.last_login}</p>
+        </div>
 
         {/* <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> */}
       </Sider>

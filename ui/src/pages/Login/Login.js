@@ -18,6 +18,7 @@ export default function Login() {
     console.log("Failed:", errorInfo);
   };
   const [api, contextHolder] = notification.useNotification();
+  const tokenState = useSelector((state) => state.githubToken);
   const openNotification = (title, status) => {
     if (status) {
       api.open({
@@ -87,6 +88,19 @@ export default function Login() {
                 if (response.success) {
                     openNotification("Logged In successfully", true);
                     dispatch(actionCreators.authState(response.success));
+                    const userData = {
+                      user_id:response.data[0].id,
+                      last_login:response.data[0].last_login,
+                      username:response.data[0].username,
+                      name:response.data[0].first_name+' '+response.data[0].last_name,
+                      email:response.data[0].email,
+                      date_joined:response.data[0].date_joined
+                    } 
+                    dispatch(actionCreators.userAuthDetails(userData))
+                    // if (tokenState.token) {
+                      
+                    // }
+
                 }
                 else{
                     openNotification("Invalid username or password", false); 
