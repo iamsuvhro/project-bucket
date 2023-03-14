@@ -14,7 +14,11 @@ export default function RightSidebar() {
         style={{
           background: "white",
           width: "700px",
-          paddingTop: "100px",
+          height: '100vh',
+          position: 'fixed',
+          marginLeft:"1604px",
+          marginTop:"60px",
+          paddingTop:80
         }}
         width={300}
       >

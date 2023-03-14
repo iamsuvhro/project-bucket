@@ -63,6 +63,9 @@ export default function Sidebar() {
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
       color="light"
+      style={{
+        marginTop:"50px"
+      }}
     >
       <LoadingBar
         color="#1890ff"

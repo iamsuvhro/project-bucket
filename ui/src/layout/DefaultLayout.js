@@ -28,10 +28,12 @@ export default function DefaultLayout() {
             <Sidebar />
             <Content
               style={{
-                margin: "0 16px",
+                margin: "10 16px",
                 padding: 24,
                 minHeight: "100vh",
                 overflow: "initial",
+                marginRight:"16%",
+                marginTop:"1%"
               }}
               className="site-layout-background"
             >
