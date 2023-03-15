@@ -4,6 +4,7 @@ import {
   SettingOutlined,
   GithubOutlined,
   PlusOutlined,
+  BookOutlined
 } from "@ant-design/icons";
 import { Divider, Layout, Menu } from "antd";
 import React, { useState, useEffect } from "react";
@@ -17,6 +18,11 @@ export default function Sidebar() {
   const { Sider } = Layout;
   const [collapsed, setCollapsed] = useState(false);
   const menu = [
+    // {
+    //   key: "",
+    //   label: "Project Lab",
+    //   icon: <DeploymentUnitOutlined />,
+    // },
     {
       key: "/",
       label: <NavLink to={"/"}>Feed</NavLink>,
@@ -59,12 +65,13 @@ export default function Sidebar() {
   return (
     <>
     <Sider
-      collapsible
+      // collapsible
       collapsed={collapsed}
-      onCollapse={(value) => setCollapsed(value)}
+      // onCollapse={(value) => setCollapsed(value)}
       color="light"
       style={{
-        marginTop:"50px"
+        position:"fixed",
+        height:"100vh"
       }}
     >
       <LoadingBar
@@ -72,10 +79,17 @@ export default function Sidebar() {
         progress={loading}
         onLoaderFinished={() => loading}
       />
-      <div className="logo" />
+      <div className="logo" style={{
+        backgroundColor:"white",
+        textAlign:"center",
+        fontSize:"20px",
+        paddingTop:30
+      }}>
+      <img src={require("./logo.png")} width="90%"/>
+      </div>
       <Menu
         theme="light"
-        mode="inline"
+        // mode="inline"
         defaultSelectedKeys={path}
         items={menu}
         style={{ height: "100%", paddingTop: 20 }}

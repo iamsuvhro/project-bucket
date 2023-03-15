@@ -5,34 +5,34 @@ import { Form, Upload, Input } from "antd";
 import { getGithubRepo } from "../../services/github";
 import FeedCard from "../../components/FeedCard/FeedCard";
 import { useSelector, useDispatch } from "react-redux";
-
+import { createCard } from "../../services/feed";
 
 
 // API Section for create card
 
-const createCard = async (id, projectTitle, projectDetails, repo) => {
-  var myHeaders = new Headers();
-  var formdata = new FormData();
-  formdata.append("user_id", id);
-  formdata.append("projectTitle",projectTitle)
-  formdata.append("projectDetails",projectDetails)
-  formdata.append("repo",repo)
+// const createCard = async (id, projectTitle, projectDetails, repo) => {
+//   var myHeaders = new Headers();
+//   var formdata = new FormData();
+//   formdata.append("user_id", id);
+//   formdata.append("projectTitle",projectTitle)
+//   formdata.append("projectDetails",projectDetails)
+//   formdata.append("repo",repo)
 
-  var requestOptions = {
-    method: "POST",
-    body: formdata,
-    headers: myHeaders,
-    redirect: "follow",
-  };
+//   var requestOptions = {
+//     method: "POST",
+//     body: formdata,
+//     headers: myHeaders,
+//     redirect: "follow",
+//   };
 
-  let res = await fetch(
-    "http://localhost:8000/api/feed/create-cards",
-    requestOptions
-  );
+//   let res = await fetch(
+//     "http://localhost:8000/api/feed/create-cards",
+//     requestOptions
+//   );
 
-  const data = await res.json();
-  return data;
-};
+//   const data = await res.json();
+//   return data;
+// };
 
 
 const { Option } = Select;
@@ -41,11 +41,10 @@ export default function CreateCard() {
 
   // getting user details
   const user = useSelector((state) => state.user);
-
+  // creating card function
   async function createFeedCard() {
     const response = await createCard(user.user_id, projectTitle, projectDetails,repo);
-    // setCardData(response);
-    console.log(response)
+    response.success ? message.success(response.message):message.error("Unable to create card")
   }
 
   const formItemLayout = {
@@ -299,8 +298,12 @@ export default function CreateCard() {
           {current === steps.length - 1 && (
             <Button
               type="primary"
-              onClick={() => 
+              onClick={()  => 
+                
+                
                 createFeedCard()
+                   
+                
                 // message.success("Card created successfully")
                 }
             >

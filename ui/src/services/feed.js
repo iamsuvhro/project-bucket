@@ -16,3 +16,27 @@ export const getCards = async (id) => {
 
   return data;
 };
+
+export const createCard = async (id, projectTitle, projectDetails, repo) => {
+  var myHeaders = new Headers();
+  var formdata = new FormData();
+  formdata.append("user_id", id);
+  formdata.append("projectTitle",projectTitle)
+  formdata.append("projectDetails",projectDetails)
+  formdata.append("repo",repo)
+
+  var requestOptions = {
+    method: "POST",
+    body: formdata,
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  let res = await fetch(
+    "http://localhost:8000/api/feed/create-cards",
+    requestOptions
+  );
+
+  const data = await res.json();
+  return data;
+};
