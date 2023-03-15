@@ -17,7 +17,7 @@ export default function RightSidebar() {
           height: '100vh',
           position: 'fixed',
           marginLeft:"1604px",
-          marginTop:"60px",
+          
           paddingTop:80
         }}
         width={300}
@@ -29,7 +29,10 @@ export default function RightSidebar() {
             </center>
           </>
         ) : (
-          <Avatar size={174} icon={<UserOutlined />} />
+          <center>
+            <Avatar size={174} style={{marginBottom:20}} icon={<UserOutlined />} />
+          </center>
+          
         )}
         <center>
           <Tag color="purple">

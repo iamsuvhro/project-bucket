@@ -23,17 +23,19 @@ export default function DefaultLayout() {
     <>
       <div className="universalBody">
         <Layout className="site-layout">
-          <Headers />
+          
           <Layout className="site-layout">
             <Sidebar />
+            {/* <Headers /> */}
             <Content
               style={{
-                margin: "10 16px",
+                margin: "12 16px",
                 padding: 24,
                 minHeight: "100vh",
                 overflow: "initial",
                 marginRight:"16%",
-                marginTop:"1%"
+                marginTop:"-2%",
+                marginLeft:"10%"
               }}
               className="site-layout-background"
             >
