@@ -23,6 +23,7 @@ import {
   MinusCircleOutlined,
   PlusOutlined,
   GithubOutlined,
+  ReloadOutlined,
 } from "@ant-design/icons";
 import { formatDistance } from "date-fns";
 import { getGitRepoIssues } from "../../services/github";
@@ -42,32 +43,43 @@ export default function FeedCard(cardData) {
     message.error("Canceled");
   };
 
+  const [rloading, setRLoading] = useState(false);
+
+
+
+  async function refreshCommitData() {
+    const repo = cardData.data.repository;
+    const username = gitUser.username;
+    console.log("Refreshing...");
+    setRLoading(true);
+    let res = await fetch(
+      "https://api.github.com/repos/" + username + "/" + repo + "/commits"
+    );
+    const data = await res.json();
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    data ? message.success("All commit's fetched successfully"):message.error("Unable to fetch latest commits")
+    setCommit(data);
+    setRLoading(false);
+  }
+
   const menu = (
-    <Menu
-      items={[
-        {
-          key: "1",
-          label: <>Edit</>,
-          icon: <EditOutlined />,
-        },
-        {
-          key: "2",
-          label: (
-            <Popconfirm
-              title="Are you sure to delete this card?"
-              onConfirm={confirm}
-              onCancel={cancel}
-              okText="Yes"
-              cancelText="No">
-              <a target="_blank" href="#">
-                Delete
-              </a>
-            </Popconfirm>
-          ),
-          icon: <DeleteOutlined />,
-        },
-      ]}
-    />
+    <Menu>
+      <Menu.Item key="1" icon={<EditOutlined />}>
+        Edit
+      </Menu.Item>
+      <Menu.Item key="2" icon={<DeleteOutlined />}>
+        <Popconfirm
+          title="Are you sure to delete this card?"
+          onConfirm={confirm}
+          onCancel={cancel}
+          okText="Yes"
+          cancelText="No">
+          <a target="_blank" href="#">
+            Delete
+          </a>
+        </Popconfirm>
+      </Menu.Item>
+    </Menu>
   );
 
   const [loading, setLoading] = useState(true);
@@ -89,7 +101,7 @@ export default function FeedCard(cardData) {
   const gitUser = useSelector((state) => state.githubProfile);
   const gitConfig = useSelector((state) => state.githubToken);
   // Defining all of useState
-  const [gitIssue, setgitIssue] = useState();
+  const [gitIssue, setgitIssue] = useState([]);
   // const [commit, setCommit] = useState({});
 
   // Defining a function for pulling all commits
@@ -98,7 +110,7 @@ export default function FeedCard(cardData) {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
   const [repository, setRepository] = useState([]);
-
+  // Fetching commit data from github
   useEffect(() => {
     async function fetchCommitData() {
       const repo = cardData.data.repository;
@@ -113,7 +125,9 @@ export default function FeedCard(cardData) {
     }
 
     fetchCommitData();
-  }, []); // pass empty dependency array
+  }, []);
+
+  // Fetching repo data from github
 
   useEffect(() => {
     async function fetchRepositoriesData() {
@@ -129,7 +143,24 @@ export default function FeedCard(cardData) {
     }
 
     fetchRepositoriesData();
-  }, []); // pass empty dependency array
+  }, []);
+
+  // Fetching issue data from github
+  useEffect(() => {
+    async function fetchIssueData() {
+      const repo = cardData.data.repository;
+      const username = gitUser.username;
+
+      let res = await fetch(
+        "https://api.github.com/repos/" + username + "/" + repo + "/issues"
+      );
+      const data = await res.json();
+
+      setgitIssue(data);
+    }
+
+    fetchIssueData();
+  }, []);
 
   const startIndex = (page - 1) * perPage;
   const endIndex = startIndex + perPage;
@@ -144,12 +175,12 @@ export default function FeedCard(cardData) {
           marginTop: 50,
           boxShadow: "5px 0px 10px 1px rgba(0, 0, 0, 0.2)",
         }}
-        className=""
         extra={
           <Dropdown overlay={menu}>
             <MoreOutlined style={{ color: "black", fontSize: "18px" }} />
           </Dropdown>
-        }>
+        }
+        key="1">
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane tab="Project details" key="1">
             {cardData.data.project_title ? (
@@ -190,31 +221,40 @@ export default function FeedCard(cardData) {
 
           {/* -------------------- Commit section ---------------------- */}
           <Tabs.TabPane tab="Commits" key="3">
-            {displayCommits.length > 0 ? (
-              displayCommits.map((c) => (
-                <div key={c.sha}>
-                  <h3>{c.commit.message}</h3>
-                  <div style={{ display: "flex", padding: 0, marginTop: -20 }}>
-                    <img
-                      src={c.author.avatar_url}
-                      style={{ width: "20px", height: "20px", marginTop: 14 }}
-                    />
-                    <p>{c.commit.author.name} </p>
-                    <p style={{ marginLeft: 2 }}>
-                      (
-                      {formatDistance(
-                        new Date(c.commit.author.date),
-                        new Date()
-                      )}
-                      )
-                    </p>
+            <div style={{ position: "relative" }}></div>
+            <Spin spinning={rloading} delay={500}>
+              {displayCommits.length > 0 ? (
+                displayCommits.map((c) => (
+                  <div key={c.sha}>
+                    <h3>{c.commit.message}</h3>
+                    <div
+                      style={{ display: "flex", padding: 0, marginTop: -20 }}>
+                      <img
+                        src={c.author.avatar_url}
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          marginTop: 14,
+                          marginRight: 5,
+                        }}
+                      />
+                      <p>{c.commit.author.name} </p>
+                      <p style={{ marginLeft: 2 }}>
+                        (
+                        {formatDistance(
+                          new Date(c.commit.author.date),
+                          new Date()
+                        )}{" "}
+                        ago )
+                      </p>
+                    </div>
+                    <Divider style={{ margin: 0 }} />
                   </div>
-                  <Divider style={{ margin: 0 }} />
-                </div>
-              ))
-            ) : (
-              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-            )}
+                ))
+              ) : (
+                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+              )}
+            </Spin>
             <br></br>
             <center>
               <Pagination
@@ -227,22 +267,59 @@ export default function FeedCard(cardData) {
                 }}
               />
             </center>
+            <p
+              onClick={refreshCommitData}
+              style={{
+                float: "right",
+                top: "0",
+                right: "0",
+                cursor: "pointer",
+                color: "black",
+              }}>
+              Refresh <ReloadOutlined />
+            </p>
           </Tabs.TabPane>
 
           {/* // ----------------- Issue area ------------------------- */}
           <Tabs.TabPane tab="Issues" key="4">
-            {/* {async () => {
-              const response = await getGitRepoIssues(
-                gitUser.username,
-                gitConfig.token,
-                "repository"
-              );
-              response.status ? setgitIssue(response.status):null
-            }} */}
-            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            {gitIssue.length > 0 ? (
+              gitIssue.map((c) => (
+                <div key={c.sha}>
+                  <h3 style={{ margin: 0 }}>{c.title}</h3>
+
+                  <div style={{ display: "flex", padding: 0, marginTop: -10 }}>
+                    <img
+                      src={c.user.avatar_url}
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        marginTop: 14,
+                        marginRight: 5,
+                      }}
+                    />
+                    <p>{c.user.login} </p>
+                    <p style={{ marginLeft: 4, color: "gray" }}>
+                      #{c.number}
+                      opened at (
+                      {formatDistance(new Date(c.created_at), new Date())} ago)
+                    </p>
+                  </div>
+                  <Divider style={{ margin: 0 }} />
+                </div>
+              ))
+            ) : (
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            )}
           </Tabs.TabPane>
 
-          {/* -------------------- Todo section ---------------------- */}
+          {/* -------------------- Milestone section ---------------------- */}
+          <Tabs.TabPane tab="Milestones" key="5">
+            <p>
+              Create milestones for your projects and track progress towards
+              achieving them.
+            </p>
+            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          </Tabs.TabPane>
         </Tabs>
       </Card>
     </>
