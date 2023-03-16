@@ -7,7 +7,6 @@ import FeedCard from "../../components/FeedCard/FeedCard";
 import { useSelector, useDispatch } from "react-redux";
 import { createCard } from "../../services/feed";
 
-
 // API Section for create card
 
 // const createCard = async (id, projectTitle, projectDetails, repo) => {
@@ -34,7 +33,6 @@ import { createCard } from "../../services/feed";
 //   return data;
 // };
 
-
 const { Option } = Select;
 
 export default function CreateCard() {
@@ -43,8 +41,15 @@ export default function CreateCard() {
   const user = useSelector((state) => state.user);
   // creating card function
   async function createFeedCard() {
-    const response = await createCard(user.user_id, projectTitle, projectDetails,repo);
-    response.success ? message.success(response.message):message.error("Unable to create card")
+    const response = await createCard(
+      user.user_id,
+      projectTitle,
+      projectDetails,
+      repo
+    );
+    response.success
+      ? message.success(response.message)
+      : message.error("Unable to create card");
   }
 
   const formItemLayout = {
@@ -111,8 +116,7 @@ export default function CreateCard() {
             }}
             style={{
               float: "center",
-            }}
-          >
+            }}>
             <br />
 
             <Form.Item
@@ -129,8 +133,7 @@ export default function CreateCard() {
                 } else {
                   setProjectTitle(e.target.value);
                 }
-              }}
-            >
+              }}>
               <Input />
             </Form.Item>
 
@@ -142,8 +145,7 @@ export default function CreateCard() {
                   required: true,
                   message: "Please input project details",
                 },
-              ]}
-            >
+              ]}>
               <Input.TextArea
                 showCount
                 maxLength={200}
@@ -156,14 +158,12 @@ export default function CreateCard() {
                 name="fileUpload"
                 valuePropName="fileList"
                 getValueFromEvent={normFile}
-                noStyle
-              >
+                noStyle>
                 <Upload.Dragger
                   name="files"
                   action="/upload.do"
                   maxCount={1}
-                  onChange={(e) => setUpload(e.target.files[0])}
-                >
+                  onChange={(e) => setUpload(e.target.files[0])}>
                   <p className="ant-upload-drag-icon">
                     <InboxOutlined />
                   </p>
@@ -177,13 +177,6 @@ export default function CreateCard() {
               </Form.Item>
             </Form.Item>
           </Form>
-        </>
-      ),
-    },
-    {
-      title: "Github Configurations",
-      content: (
-        <>
           <Form
             name="validate_other"
             {...formItemLayout}
@@ -191,8 +184,7 @@ export default function CreateCard() {
             wrapperCol={{
               span: 15,
               offset: -7,
-            }}
-          >
+            }}>
             <br />
 
             <Form.Item
@@ -202,8 +194,7 @@ export default function CreateCard() {
                 {
                   required: true,
                 },
-              ]}
-            >
+              ]}>
               <Input defaultValue={tokenState.token} disabled />
             </Form.Item>
 
@@ -218,15 +209,13 @@ export default function CreateCard() {
                 {
                   required: true,
                 },
-              ]}
-            >
+              ]}>
               <Select
                 placeholder="Select a option and change input text above"
                 allowClear
                 onChange={(e) => {
                   setRepo(e);
-                }}
-              >
+                }}>
                 {dropitems.map((name) => (
                   <Option value={name} initialValues={name}>
                     {name}
@@ -238,13 +227,14 @@ export default function CreateCard() {
         </>
       ),
     },
+    
     {
       title: "Finish",
       content: (
         <>
           <br />
           <Divider orientation="center">
-            <b style={{fontSize:20}}>Card Preview</b>
+            <b style={{ fontSize: 20 }}>Card Preview</b>
           </Divider>
           <FeedCard data={cardData} />
           <br />
@@ -279,8 +269,7 @@ export default function CreateCard() {
           padding: 30,
           boxShadow: "5px 0px 10px 1px rgba(0, 0, 0, 0.2)",
         }}
-        className=""
-      >
+        className="">
         <Steps current={current} items={items} />
         <div className="steps-content">{steps[current].content}</div>
         <div className="steps-action">
@@ -290,7 +279,9 @@ export default function CreateCard() {
               style={{
                 marginTop: 20,
               }}
-              onClick={() => next()}
+              onClick={() => next()
+            }
+            disabled={repo && projectTitle ? false : true}
             >
               Next
             </Button>
@@ -298,15 +289,11 @@ export default function CreateCard() {
           {current === steps.length - 1 && (
             <Button
               type="primary"
-              onClick={()  => 
-                
-                
-                createFeedCard()
-                   
-                
+              onClick={
+                () => createFeedCard()
+
                 // message.success("Card created successfully")
-                }
-            >
+              }>
               Create Card
             </Button>
           )}
@@ -315,8 +302,7 @@ export default function CreateCard() {
               style={{
                 margin: "0 8px",
               }}
-              onClick={() => prev()}
-            >
+              onClick={() => prev()}>
               Previous
             </Button>
           )}
