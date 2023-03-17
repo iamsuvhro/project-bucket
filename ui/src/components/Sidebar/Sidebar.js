@@ -1,10 +1,10 @@
 import {
-  UserOutlined,
+  BookOutlined,
   DeploymentUnitOutlined,
   SettingOutlined,
   GithubOutlined,
   PlusOutlined,
-  BookOutlined
+  CreditCardOutlined
 } from "@ant-design/icons";
 import { Divider, Layout, Menu } from "antd";
 import React, { useState, useEffect } from "react";
@@ -28,15 +28,15 @@ export default function Sidebar() {
       label: <NavLink to={"/"}>Feed</NavLink>,
       icon: <DeploymentUnitOutlined />,
     },
-    {
-      key: "/create-card",
-      label: <NavLink to={"/create-card"}>Card</NavLink>,
-      icon: <PlusOutlined />,
-    },
+    // {
+    //   key: "/create-card",
+    //   label: <NavLink to={"/create-card"}>Create Card</NavLink>,
+    //   icon: <PlusOutlined />,
+    // },
     {
       key: "/profile",
-      label: <NavLink to={"/profile"}>Profile</NavLink>,
-      icon: <UserOutlined />,
+      label: <NavLink to={"/cards"}>Cards</NavLink>,
+      icon: <CreditCardOutlined />,
     },
     {
       key: "/github-config",
@@ -46,7 +46,7 @@ export default function Sidebar() {
     {
       key: "/notebook",
       label: <NavLink to={"/notebook"}>Notebook</NavLink>,
-      icon: <SettingOutlined />,
+      icon: <BookOutlined />,
     },
     {
       key: "/settings",
