@@ -24,6 +24,8 @@ import {
   PlusOutlined,
   GithubOutlined,
   ReloadOutlined,
+  PushpinOutlined,
+  PaperClipOutlined,
 } from "@ant-design/icons";
 import { formatDistance } from "date-fns";
 import { getGitRepoIssues } from "../../services/github";
@@ -45,8 +47,6 @@ export default function FeedCard(cardData) {
 
   const [rloading, setRLoading] = useState(false);
 
-
-
   async function refreshCommitData() {
     const repo = cardData.data.repository;
     const username = gitUser.username;
@@ -56,8 +56,10 @@ export default function FeedCard(cardData) {
       "https://api.github.com/repos/" + username + "/" + repo + "/commits"
     );
     const data = await res.json();
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    data ? message.success("All commit's fetched successfully"):message.error("Unable to fetch latest commits")
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    data
+      ? message.success("All commit's fetched successfully")
+      : message.error("Unable to fetch latest commits");
     setCommit(data);
     setRLoading(false);
   }
@@ -115,9 +117,17 @@ export default function FeedCard(cardData) {
     async function fetchCommitData() {
       const repo = cardData.data.repository;
       const username = gitUser.username;
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer " + gitConfig.token);
 
+      var requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
       let res = await fetch(
-        "https://api.github.com/repos/" + username + "/" + repo + "/commits"
+        "https://api.github.com/repos/" + username + "/" + repo + "/commits",
+        requestOptions
       );
       const data = await res.json();
 
@@ -133,9 +143,17 @@ export default function FeedCard(cardData) {
     async function fetchRepositoriesData() {
       const repo = cardData.data.repository;
       const username = gitUser.username;
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer " + gitConfig.token);
 
+      var requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
       let res = await fetch(
-        "https://api.github.com/repos/" + username + "/" + repo
+        "https://api.github.com/repos/" + username + "/" + repo,
+        requestOptions
       );
       const data = await res.json();
 
@@ -150,9 +168,17 @@ export default function FeedCard(cardData) {
     async function fetchIssueData() {
       const repo = cardData.data.repository;
       const username = gitUser.username;
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer " + gitConfig.token);
 
+      var requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
       let res = await fetch(
-        "https://api.github.com/repos/" + username + "/" + repo + "/issues"
+        "https://api.github.com/repos/" + username + "/" + repo + "/issues",
+        requestOptions
       );
       const data = await res.json();
 
@@ -168,12 +194,20 @@ export default function FeedCard(cardData) {
   return (
     <>
       <Card
-        title={<Tag color="blue">{cardData.data.project_title}</Tag>}
+        title={
+          <div style={{ display: "flex" }}>
+            <Tag color="blue">
+              <GithubOutlined /> {cardData.data.repository}
+            </Tag>
+            <PaperClipOutlined />
+          </div>
+        }
         bordered={false}
         style={{
-          width: "100%",
+          width: "60%",
           marginTop: 50,
-          boxShadow: "5px 0px 10px 1px rgba(0, 0, 0, 0.2)",
+          boxShadow: "0px 0px 4px 0px rgba(0,0,0,0.3)",
+          left:300
         }}
         extra={
           <Dropdown overlay={menu}>

@@ -14,7 +14,7 @@ from feed.service import FeedCardService
 def getCards(request):
     payload = request.data
     user_id = payload['user_id']
-    response = FeedCard.objects.filter(user=user_id)
+    response = FeedCard.objects.filter(user=user_id).order_by('-card_created')
     serializer = FeedCardSerializer(response, many=True)
     return Response(serializer.data)
 
