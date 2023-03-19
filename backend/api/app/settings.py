@@ -56,11 +56,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOWED_ORIGINS = [
     # "http://localhost:3000",
-    "https://beta.devdash.in/"
+    "https://beta.devdash.in/",
+    "http://api.beta.devdash.in"
 ]
 
 
