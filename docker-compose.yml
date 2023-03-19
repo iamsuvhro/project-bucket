@@ -9,8 +9,6 @@ services:
     restart: on-failure
     ports:
       - 8000:8000
-    networks:
-      - gitbook_dev
 
   frontend_service:
     restart: always
@@ -24,11 +22,6 @@ services:
       - node_modules:/ui/node_modules
     depends_on:
       - backend_service
-    networks:
-      - gitbook_dev
-
-networks:
-  gitbook_dev:
 
 volumes:
   node_modules:
