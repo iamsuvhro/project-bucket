@@ -34,7 +34,7 @@ services:
   nginx_sidecar:
     build:
       context: ./nginx
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     ports:
       - 8000:8000
     networks:
