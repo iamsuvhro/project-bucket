@@ -36,7 +36,6 @@ import { createCard } from "../../services/feed";
 const { Option } = Select;
 
 export default function CreateCard() {
-
   // getting user details
   const user = useSelector((state) => state.user);
   // creating card function
@@ -227,7 +226,7 @@ export default function CreateCard() {
         </>
       ),
     },
-    
+
     {
       title: "Finish",
       content: (
@@ -279,10 +278,8 @@ export default function CreateCard() {
               style={{
                 marginTop: 20,
               }}
-              onClick={() => next()
-            }
-            disabled={repo && projectTitle ? false : true}
-            >
+              onClick={() => next()}
+              disabled={repo && projectTitle ? false : true}>
               Next
             </Button>
           )}
