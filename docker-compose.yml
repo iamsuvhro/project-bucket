@@ -3,7 +3,7 @@ version: '3.9'
 services:
   backend_service:
     build:
-      context: ./backend/api
+      context: ./backend
       dockerfile: Dockerfile.dev
     restart: on-failure
     ports:
@@ -20,7 +20,7 @@ services:
     restart: always
     container_name: frontend
     build: 
-      context: ./ui
+      context: ./frontend
       dockerfile: Dockerfile.dev
     ports:
       - 3000:3000

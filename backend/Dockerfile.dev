@@ -1,7 +1,7 @@
 # First stage - build the app
 FROM python:3.8.13-slim-buster AS build
 
-WORKDIR /usr/src/app
+WORKDIR /src
 
 # Install system dependencies
 RUN apt-get update && \
@@ -17,16 +17,16 @@ RUN python -m venv /venv && \
     /venv/bin/pip install --no-cache-dir -r requirements.txt && \
     /venv/bin/pip install --no-cache-dir gunicorn
 
-# Copy the source code and requirements file
-COPY api .
-
-# Copy Environemnt file
-ADD env/.env.dev .env
-
 # Second stage - final image
 FROM python:3.8.13-slim-buster
 
-WORKDIR /usr/src/app
+WORKDIR /src
+
+# Copy the source code and requirements file
+COPY api/ .
+
+# Copy Environemnt file
+ADD env/.env.dev .env
 
 # Copy the virtual environment from the previous stage
 COPY --from=build /venv /venv
@@ -34,9 +34,6 @@ COPY --from=build /venv /venv
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-
-# Copy the application code
-COPY . .
 
 # Start the application
 CMD ["/venv/bin/gunicorn", "app.wsgi:application", "--bind", "0.0.0.0:8080", "--workers", "4", "--threads", "2", "--access-logfile", "-", "--error-logfile", "-"]
