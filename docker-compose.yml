@@ -1,37 +1,38 @@
-version: "3.9"
+version: '3.9'
 
 services:
-  backend:
-    container_name: backend_service
-    build: ./api
-    restart: "always"
-    # command: python manage.py runserver 0.0.0.0:8000
-    command: gunicorn app.wsgi:application --bind 0.0.0.0:8000
-    networks:
-      - dev
-
-  frontend:
-    container_name: frontend_service
-    build: ./ui
-    command: yarn start
-    restart: "on-failure"
-    networks:
-      - dev
-
-  nginx:
-    build: ./nginx
+  backend_service:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.dev
+    restart: on-failure
+    command: gunicorn app.wsgi:application --bind 0.0.0.0:8080 --workers 4 --thread 2 --access-logfile '-' --error-logfile '-'
     ports:
-      - "80:80"
-      - "443:433"
+      - "8080-8082:8080"
+    deploy:
+      replicas: 3
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  frontend_service:
+    restart: always
+    container_name: frontend
+    build: 
+      context: ./ui
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    volumes:
+      - node_modules:/ui/node_modules
     depends_on:
-      - backend
-      - frontend
-    networks:
-      - dev
-    environment:
-      - NGINX_CONF_TYPE=nginx.local.conf
-    restart: "on-failure"
+      - backend_service
 
 networks:
-  dev:
-    external: true
+  default:
+    name: development
+
+volumes:
+  node_modules:
