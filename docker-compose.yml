@@ -2,10 +2,13 @@ version: '3.9'
 
 services:
   backend_service:
+    container_name: api
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
     restart: on-failure
+    ports:
+      - 8000:8000
     networks:
       - gitbook_dev
 
@@ -23,17 +26,6 @@ services:
       - backend_service
     networks:
       - gitbook_dev
-
-  nginx_sidecar:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.dev
-    ports:
-      - 8000:8000
-    networks:
-      - gitbook_dev
-    depends_on:
-      - backend_service
 
 networks:
   gitbook_dev:
