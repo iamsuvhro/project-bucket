@@ -6,6 +6,7 @@ import { getGithubRepo } from "../../services/github";
 import FeedCard from "../../components/FeedCard/FeedCard";
 import { useSelector, useDispatch } from "react-redux";
 import { createCard } from "../../services/feed";
+import { BACKEND_URL } from "../../config";
 
 // API Section for create card
 
@@ -25,7 +26,7 @@ import { createCard } from "../../services/feed";
 //   };
 
 //   let res = await fetch(
-//     "http://localhost:8000/api/feed/create-cards",
+//     `${BACKEND_URL}/api/feed/create-cards`,
 //     requestOptions
 //   );
 

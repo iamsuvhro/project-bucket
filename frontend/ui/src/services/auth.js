@@ -1,3 +1,5 @@
+import { BACKEND_URL } from "../config";
+
 export const Userlogin = async (username, password) => {
   var myHeaders = new Headers();
   var formdata = new FormData();
@@ -12,7 +14,7 @@ export const Userlogin = async (username, password) => {
   };
 
   let res = await fetch(
-    "http://localhost:8000/api/users/account/login/",
+    `${BACKEND_URL}/api/users/account/login/`,
     requestOptions
   );
 

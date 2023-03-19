@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Space, Table, Tag, Divider, message, Button } from "antd";
 import { PaperClipOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
+import { BACKEND_URL } from "../../config";
 
 const columns = [
   {
@@ -71,7 +72,6 @@ const columns = [
 ];
 
 export default function CardsDeck() {
-
   const [cardData, setcardData] = useState([]);
   const user = useSelector((state) => state.user);
   console.log(user);
@@ -88,7 +88,7 @@ export default function CardsDeck() {
         redirect: "follow",
       };
       let res = await fetch(
-        "http://localhost:8000/api/feed/get-cards",
+        `${BACKEND_URL}/api/feed/get-cards`,
         requestOptions
       );
       const data = await res.json();
@@ -101,9 +101,11 @@ export default function CardsDeck() {
       <div style={{ display: "flex" }}>
         <h1 style={{ fontSize: 24, marginBottom: 20 }}>Cards</h1>
       </div>
-      <a href="/create-card"><Button type="primary" style={{ float: "right", marginTop: -50 }}>
-        Create Card
-      </Button></a>
+      <a href="/create-card">
+        <Button type="primary" style={{ float: "right", marginTop: -50 }}>
+          Create Card
+        </Button>
+      </a>
       <Divider />
       <Table columns={columns} dataSource={cardData} />
     </div>

@@ -3,6 +3,7 @@ import { Divider, Skeleton, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import FeedCard from "../../components/FeedCard/FeedCard";
 import { useSelector, useDispatch } from "react-redux";
+import { BACKEND_URL } from "../../config";
 
 const getCards = async (id) => {
   var myHeaders = new Headers();
@@ -16,10 +17,7 @@ const getCards = async (id) => {
     redirect: "follow",
   };
 
-  let res = await fetch(
-    "http://localhost:8000/api/feed/get-cards",
-    requestOptions
-  );
+  let res = await fetch(`${BACKEND_URL}/api/feed/get-cards`, requestOptions);
 
   const data = await res.json();
   return data;
