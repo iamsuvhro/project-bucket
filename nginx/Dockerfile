@@ -1,6 +1,8 @@
-FROM nginx:1.19.0-alpine
+FROM nginx:1.21.1-alpine
 
-ARG NGINX_CONF_TYPE
+# Copy custom nginx configuration file
+COPY nginx.conf /etc/nginx/nginx.conf
 
-RUN rm /etc/nginx/conf.d/default.conf
-COPY ${NGINX_CONF_TYPE} /etc/nginx/conf.d
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
