@@ -36,4 +36,4 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 # Start the application
-CMD ["/venv/bin/gunicorn", "app.wsgi:application", "--bind", "0.0.0.0:8080", "--access-logfile", "-", "--error-logfile", "-"]
+CMD ["/venv/bin/gunicorn", "app.wsgi:application", "--bind", "0.0.0.0:8080", "--workers", "4", "--threads", "2", "--access-logfile", "-", "--error-logfile", "-"]
