@@ -1,0 +1,49 @@
+version: '3.9'
+
+services:
+  backend_service:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    restart: on-failure
+    deploy:
+      replicas: 3
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      restart_policy:
+        condition: on-failure
+    networks:
+      - gitbook_prod
+
+  frontend_service:
+    restart: always
+    container_name: frontend
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    ports:
+      - 3000:3000
+    volumes:
+      - node_modules:/ui/node_modules
+    depends_on:
+      - backend_service
+    networks:
+      - gitbook_prod
+
+  nginx_sidecar:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    networks:
+      - gitbook_prod
+    depends_on:
+      - backend_service
+
+networks:
+  gitbook_prod:
+
+volumes:
+  node_modules:
