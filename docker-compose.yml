@@ -29,6 +29,13 @@ services:
     depends_on:
       - backend_service
 
+    # nginx:
+    #   restart: always
+    #   container_name: nginx
+    #   build: ./nginx
+    #   ports:
+    #     - 80:80
+    
 networks:
   default:
     name: development
