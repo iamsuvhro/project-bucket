@@ -1,0 +1,28 @@
+# Stage 1: Build the app
+FROM node:18.6.0 AS builder
+
+WORKDIR /app
+
+# Install app dependencies
+COPY package*.json ./
+RUN yarn install
+
+# Copy app source code
+COPY . .
+
+# Build the app
+RUN yarn build
+
+# Stage 2: Serve the app in development mode
+FROM node:18.6.0-alpine
+
+WORKDIR /app
+
+# Copy the built app from stage 1
+COPY --from=builder /app/build /app/build
+
+# Expose the app port
+EXPOSE 3000
+
+# Start the app in development mode
+CMD ["yarn", "start"]
