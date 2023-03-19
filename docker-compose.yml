@@ -6,8 +6,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile.dev
     restart: on-failure
-    ports:
-      - "8080-8082:8080"
+    # ports:
+    #   - 8080-8082:8080
     deploy:
       replicas: 3
       # update_config:
@@ -15,6 +15,8 @@ services:
       #   delay: 10s
       restart_policy:
         condition: on-failure
+    networks:
+      - gitbook_dev
 
   frontend_service:
     restart: always
@@ -28,17 +30,22 @@ services:
       - node_modules:/ui/node_modules
     depends_on:
       - backend_service
+    networks:
+      - gitbook_dev
 
-    # nginx:
-    #   restart: always
-    #   container_name: nginx
-    #   build: ./nginx
-    #   ports:
-    #     - 80:80
-    
+  nginx_sidecar:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    networks:
+      - gitbook_dev
+    depends_on:
+      - backend_service
+
 networks:
-  default:
-    name: development
+  gitbook_dev:
 
 volumes:
   node_modules:
