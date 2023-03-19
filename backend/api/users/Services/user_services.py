@@ -20,15 +20,14 @@ class UserServices:
         lname = payload['lname']
         email = payload['email']
         # github_token = payload['github_token']
-        breakpoint()
         try:
-            
+
             query = User.objects.create_user(
                 username=username,
                 password=password,
                 email=email,
                 first_name=fname,
-                last_name = lname
+                last_name=lname
                 # github_token=github_token
             )
             query.save()
@@ -39,7 +38,7 @@ class UserServices:
             return res
 
         except Exception as ex:
-            return ex
+            return res
 
     @staticmethod
     def get_user(payload):

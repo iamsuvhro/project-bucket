@@ -23,7 +23,6 @@ export default function DefaultLayout() {
     <>
       <div className="universalBody">
         <Layout className="site-layout">
-          
           <Layout className="site-layout">
             <Sidebar />
             {/* <Headers /> */}
@@ -33,16 +32,15 @@ export default function DefaultLayout() {
                 padding: 24,
                 minHeight: "100vh",
                 overflow: "initial",
-                marginRight:"16%",
-                marginTop:"-2%",
-                marginLeft:"10%",
-                backgroundColor:"white"
+                marginRight: "16%",
+                marginTop: "-2%",
+                marginLeft: "10%",
+                backgroundColor: "white",
               }}
-              className="site-layout-background"
-            >
+              className="site-layout-background">
               <Suspense>
                 <Routes>
-                  <Route path="/" element={<Feed />} />
+                  <Route path="/*" element={<Feed />} />
                   <Route path="/cards" element={<CardsDeck />} />
                   <Route path="/settings" element={<Settings />} />
                   <Route path="/create-card" element={<CreateCard />} />

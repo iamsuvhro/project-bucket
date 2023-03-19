@@ -7,12 +7,12 @@ import {
   CloseCircleFilled,
   CheckCircleFilled,
 } from "@ant-design/icons";
-import { Userlogin } from "../../services/auth";
+import { CreateUser, Userlogin } from "../../services/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators } from "../../state";
 import { Navigate } from "react-router-dom";
 
-export default function Login() {
+export default function Registration() {
   const onFinish = (values) => {
     console.log("Success:", values);
   };
@@ -37,6 +37,9 @@ export default function Login() {
 
   const dispatch = useDispatch();
   const [username, setusername] = useState();
+  const [firstname, setfirstname] = useState();
+  const [lastname, setlastname] = useState();
+  const [email, setemail] = useState();
   const [password, setpassword] = useState();
 
   return (
@@ -52,7 +55,7 @@ export default function Login() {
           marginLeft: "25%",
         }}>
         <div className="login">
-          <center>User Login</center>
+          <center>Create a new account</center>
         </div>
         <Form
           name="basic"
@@ -70,6 +73,52 @@ export default function Login() {
             <Input
               onChange={(e) => {
                 setusername(e.target.value);
+              }}
+            />
+          </Form.Item>
+          <Form.Item
+            label="First Name"
+            name="fname"
+            rules={[
+              {
+                required: true,
+                message: "Please input your first name!",
+              },
+            ]}>
+            <Input
+              onChange={(e) => {
+                setfirstname(e.target.value);
+              }}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Last Name"
+            name="lname"
+            rules={[
+              {
+                required: true,
+                message: "Please input your last name!",
+              },
+            ]}>
+            <Input
+              onChange={(e) => {
+                setlastname(e.target.value);
+              }}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Email"
+            name="email"
+            type="email"
+            rules={[
+              {
+                required: true,
+                message: "Please input your email!",
+              },
+            ]}>
+            <Input
+              onChange={(e) => {
+                setemail(e.target.value);
               }}
             />
           </Form.Item>
@@ -97,9 +146,15 @@ export default function Login() {
                 size={"500"}
                 htmlType="submit"
                 onClick={async () => {
-                  const response = await Userlogin(username, password);
+                  const response = await CreateUser(
+                    username,
+                    password,
+                    email,
+                    lastname,
+                    firstname
+                  );
                   if (response.success) {
-                    openNotification("Logged In successfully", true);
+                    openNotification("User created successfully", true);
                     dispatch(actionCreators.authState(response.success));
                     const userData = {
                       user_id: response.data[0].id,
@@ -113,14 +168,15 @@ export default function Login() {
                       date_joined: response.data[0].date_joined,
                     };
                     dispatch(actionCreators.userAuthDetails(userData));
+                    <Navigate to="/" />;
                   } else {
-                    openNotification("Invalid username or password", false);
+                    openNotification(response.message, false);
                   }
                 }}>
                 Submit
               </Button>
               <div style={{ marginTop: 40, marginBottom: -30 }}>
-                Don't have any account <a href="/registration">Sign Up Now</a>
+                Already have an account <a href="/login">Sign in Now</a>
               </div>
             </center>
           </Form.Item>
