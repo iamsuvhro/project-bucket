@@ -6,15 +6,6 @@ services:
       context: ./backend
       dockerfile: Dockerfile.dev
     restart: on-failure
-    # ports:
-    #   - 8080-8082:8080
-    deploy:
-      replicas: 3
-      # update_config:
-      #   parallelism: 2
-      #   delay: 10s
-      restart_policy:
-        condition: on-failure
     networks:
       - gitbook_dev
 
@@ -36,7 +27,7 @@ services:
   nginx_sidecar:
     build:
       context: ./nginx
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     ports:
       - 8000:8000
     networks:
