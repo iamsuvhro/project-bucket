@@ -28,7 +28,8 @@ export const CreateUser = async (
   password,
   email,
   lastname,
-  firstname
+  firstname,
+  gitToken
 ) => {
   var myHeaders = new Headers();
   var formdata = new FormData();
@@ -37,6 +38,7 @@ export const CreateUser = async (
   formdata.append("fname", firstname);
   formdata.append("lname", lastname);
   formdata.append("email", email);
+  formdata.append("token", gitToken);
 
   var requestOptions = {
     method: "POST",

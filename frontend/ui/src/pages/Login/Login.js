@@ -111,6 +111,7 @@ export default function Login() {
                         response.data[0].last_name,
                       email: response.data[0].email,
                       date_joined: response.data[0].date_joined,
+                      // githubToken: response.data
                     };
                     dispatch(actionCreators.userAuthDetails(userData));
                   } else {

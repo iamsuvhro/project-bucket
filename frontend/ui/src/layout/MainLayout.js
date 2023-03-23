@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Login from "../pages/Login/Login";
 import Registration from "../pages/Authentication/Registration";
+import GithubConfig from "../pages/Gtihub/GithubConfig";
 
 export default function MainLayout() {
   const authState = useSelector((state) => state.authStatus);
@@ -21,6 +22,7 @@ export default function MainLayout() {
         <Routes>
           <Route path="/*" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
+          {/* <Route path="/github-config" element={<GithubConfig />} /> */}
         </Routes>
       </BrowserRouter>
     );
